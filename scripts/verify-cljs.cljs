@@ -1,0 +1,23 @@
+#!/usr/bin/env nbb
+;; Run the suite on the ClojureScript side.
+;;
+;; Not a formality. `profinet.rt`'s Data Status bitfield and
+;; `profinet.dcp`'s TLV block-length walker both do byte-level
+;; arithmetic with `bit-or`/`bit-shift-left` — safely inside JavaScript's
+;; 32-bit signed bitwise range, but the round-trip sweeps are the thing
+;; that actually proves it on the runtime whose bitwise operators are
+;; the ones with a 32-bit ceiling in the first place.
+;;
+;;   nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljs
+(ns verify-cljs
+  (:require [clojure.test :as t]
+            [profinet.core-test]))
+
+(defmethod t/report [:cljs.test/default :end-run-tests] [m]
+  (println)
+  (if (t/successful? m)
+    (println "all checks passed on the ClojureScript path")
+    (do (println "FAILED on the ClojureScript path")
+        (js/process.exit 1))))
+
+(t/run-tests 'profinet.core-test)
