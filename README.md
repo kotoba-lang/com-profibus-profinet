@@ -128,7 +128,7 @@ are contract.**
 
 ```sh
 clojure -M:test                                                       # JVM
-nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljs  # ClojureScript
+nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljk  # ClojureScript
 ```
 
 Real counts as run for this README: **25 tests, 136112 assertions, 0
