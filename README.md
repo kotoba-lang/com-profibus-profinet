@@ -127,8 +127,8 @@ are contract.**
 ## Verify
 
 ```sh
-clojure -M:test                                                       # JVM
-nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljk  # ClojureScript
+kbb -M:test                                                       # JVM
+kbb --backend sci --classpath "$(kbb -A:cljs -Spath)" scripts/verify-cljs.cljk  # ClojureScript
 ```
 
 Real counts as run for this README: **25 tests, 136112 assertions, 0
@@ -160,7 +160,7 @@ the JVM, but under ClojureScript's 32-bit *signed* bitwise operators
 (JS semantics), any Xid with its top byte's high bit set (including the
 round-trip test's own `0xCAFEBABE`) came back as a **negative host
 number** with the correct bit pattern but the wrong sign. `clojure
--M:test` passed clean; only `nbb .../verify-cljs.cljs` caught it. Fixed
+-M:test` passed clean; only `kbb --backend sci .../verify-cljs.cljk` caught it. Fixed
 with a final `unsigned-bit-shift-right ... 0` — see `rd-u32be`'s
 docstring. The identical bug shape was independently caught the same
 way in `org-can-cia-canopen`'s PDO mapping-entry codec and
@@ -178,7 +178,7 @@ actually discriminate: a passing negative test
 asserts the SPECIFIC reason `:profinet/dcp-pdu-wrong-length`, not merely
 `:error`. To confirm this is load-bearing, the check
 `(not= n (+ 10 data-length))` in `decode-pdu` was temporarily changed to
-the constant `false` (never triggers), and `clojure -M:test` re-run:
+the constant `false` (never triggers), and `kbb -M:test` re-run:
 `negative-dcp-pdu-wrong-length` failed as expected (the truncated PDU
 was instead handed to `decode-blocks`, which itself failed with
 `:profinet/dcp-block-truncated` — a *different* error than the one the
