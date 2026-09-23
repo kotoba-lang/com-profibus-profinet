@@ -9,7 +9,7 @@
   comments rather than against the PROFINET IO specification text, which
   is a paywalled PROFIBUS & PROFINET International (profibus.com)
   membership document this project has no access to."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [profinet.rt :as rt]
             [profinet.dcp :as dcp]
             [profinet.ethernet :as eth]))
